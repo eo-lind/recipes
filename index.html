@@ -1,40 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipe Manager</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <h1>Recipe Manager</h1>
+      <button id="show-login" onclick="showLogin()">Show Admin Login</button>
 
-        <!-- Recipe Form -->
-        <div class="recipe-form">
-            <h2>Add/Edit Recipe</h2>
-            <input type="text" id="recipe-name" placeholder="Recipe Name">
-            <textarea id="recipe-ingredients" placeholder="Ingredients (separated by commas)"></textarea>
-            <textarea id="recipe-steps" placeholder="Steps"></textarea>
-            <button onclick="addRecipe()">Add Recipe</button>
-        </div>
+      <div id="login" style="display: none">
+        <h2>Admin Login</h2>
+        <input type="email" id="login-email" placeholder="Email" />
+        <input type="password" id="login-password" placeholder="Password" />
+        <button onclick="login()">Login</button>
+        <p id="login-error"></p>
+      </div>
 
-        <!-- Search -->
-        <div class="search-bar">
-            <h2>Search Recipes</h2>
-            <input type="text" id="search-bar" placeholder="Search by name or ingredient" onkeyup="searchRecipes()">
-        </div>
+      <div id="add-recipe-form" style="display: none">
+        <!-- Add recipe form fields go here -->
+      </div>
+      <h1>Recipe Manager</h1>
 
-        <!-- Recipe List -->
-        <div id="recipe-list">
-            <h2>Recipes</h2>
-            <ul id="recipes"></ul>
-        </div>
+      <!-- Recipe Form -->
+      <div class="recipe-form" style="display: none">
+        <h2>Add/Edit Recipe</h2>
+        <input type="text" id="recipe-name" placeholder="Recipe Name" />
+        <textarea
+          id="recipe-ingredients"
+          placeholder="Ingredients (separated by commas)"
+        ></textarea>
+        <textarea id="recipe-steps" placeholder="Steps"></textarea>
+        <button onclick="addRecipe()">Add Recipe</button>
+      </div>
+
+      <!-- Search -->
+      <div class="search-bar" style="display: none">
+        <h2>Search Recipes</h2>
+        <input
+          type="text"
+          id="search-bar"
+          placeholder="Search by name or ingredient"
+          onkeyup="searchRecipes()"
+        />
+      </div>
+
+      <!-- Recipe List -->
+      <div id="recipe-list" style="display: none">
+        <h2>Recipes</h2>
+        <ul id="recipes"></ul>
+      </div>
     </div>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore-compat.js"></script>
+
+    <!-- my scripts -->
     <!-- Include the recipes array first -->
     <script src="recipes.js"></script>
-    <!-- Main script for handling app functionality -->
     <script src="scripts.js"></script>
-</body>
+
+  </body>
 </html>
