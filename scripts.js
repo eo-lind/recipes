@@ -1,8 +1,3 @@
-function showLogin() {
-  const loginForm = document.getElementById("login")
-  loginForm.style.display = "block" // Show the login form
-}
-
 // Firebase initialization
 const firebaseConfig = {
   apiKey: "AIzaSyAvpw5Bb6H9UBdfZl6Tuzke925PvEgP7IQ",
@@ -11,41 +6,15 @@ const firebaseConfig = {
   storageBucket: "recipes-c74b5.appspot.com",
   messagingSenderId: "497413846366",
   appId: "1:497413846366:web:b0618843502eb069398bcf",
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-// Firebase Authentication login function
-function login() {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      console.log("Admin signed in");
-      document.getElementById("login").style.display = "none"; // Hide login form
-      document.getElementById("add-recipe-form").style.display = "block"; // Show add form
-    })
-    .catch((error) => {
-      document.getElementById("login-error").textContent =
-        "Login failed: " + error.message;
-    });
 }
+firebase.initializeApp(firebaseConfig)
+const db = firebase.firestore()
 
-// Check if user is signed in
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    // User is signed in (admin)
-    document.getElementById("login").style.display = "none"; // Hide login
-    document.getElementById("add-recipe-form").style.display = "block"; // Show add form
-  } else {
-    // No user is signed in (viewers)
-    document.getElementById("login").style.display = "block"; // Show login form
-    document.getElementById("add-recipe-form").style.display = "none"; // Hide add form
-  }
-});
+// Function to display the login form
+function showLogin() {
+  const loginForm = document.getElementById("login")
+  loginForm.style.display = "block" // Show the login form
+}
 
 // Firebase Authentication login function
 function login() {
@@ -58,7 +27,7 @@ function login() {
     .then((userCredential) => {
       console.log("Admin signed in")
       document.getElementById("login").style.display = "none" // Hide login form
-      document.getElementById("add-recipe-form").style.display = "block" // Show add form
+      document.querySelector(".recipe-form").style.display = "block" // Show recipe form
     })
     .catch((error) => {
       document.getElementById("login-error").textContent =
@@ -69,15 +38,37 @@ function login() {
 // Check if user is signed in
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    // User is signed in (admin)
-    document.getElementById("login").style.display = "none" // Hide login
-    document.getElementById("add-recipe-form").style.display = "block" // Show add form
+    console.log("User is signed in, showing add recipe form.")
+    document.getElementById("login").style.display = "none" // Hide login form
+    document.querySelector(".recipe-form").style.display = "block" // Show recipe form
+    document.querySelector(".search-bar").style.display = "block" // Show search bar
+    document.querySelector("#recipe-list").style.display = "block" // Show recipe list
   } else {
-    // No user is signed in (viewers)
+    console.log("No user signed in, showing login form.")
     document.getElementById("login").style.display = "block" // Show login form
-    document.getElementById("add-recipe-form").style.display = "none" // Hide add form
+    document.querySelector(".recipe-form").style.display = "none" // Hide recipe form
+    document.querySelector(".search-bar").style.display = "none" // Hide search bar
+    document.querySelector("#recipe-list").style.display = "none" // Hide recipe list
   }
 })
+
+// logout
+function logout() {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      console.log("User signed out")
+      document.getElementById("add-recipe-form").style.display = "none" // Hide the add recipe form
+      document.getElementById("login").style.display = "block" // Show the login form
+    })
+    .catch((error) => {
+      console.error("Error signing out: ", error)
+    })
+}
+
+
+// Recipes & other code...
 
 function displayRecipes(filteredRecipes = recipes) {
   const recipeList = document.getElementById("recipes")
